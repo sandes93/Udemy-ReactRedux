@@ -1,12 +1,29 @@
 
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import YTSearch from 'youtube-api-search';
+import SearchBar from './components/search_bar';
+import  VideoList from './components/video_list'
 
-// create a new component that produces html
+const API_KEY =  'AIzaSyBbvucyrLQWa8gRQBSmmx-CA_QcwPUgBlw';
 
-const App = () => <div>Hi!</div>; 
+class App extends Component{
+	constructor(props) {
+		super(props);
 
-// take this compontent's generated html and put it on the Dom
+		this.state = { videos: [] };
+
+		YTSearch({key:API_KEY, term: 'calisthenics'}, (videos)=> this.setState({videos}));
+
+	}
+	render(){ return (
+		<div>
+			<SearchBar />
+			<VideoList videos = {this.state.videos}/>
+		</div>
+		)
+	}
+} 
 
 //pass instance instead of class
 ReactDOM.render(<App />, document.querySelector('.container'));
